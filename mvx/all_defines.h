@@ -66,14 +66,43 @@ extern const char* VIDEO_PATH, *OUT_PATH, *RGB_PATH ;
 extern int RGB_THRESH, REF_INTERVAL, WRITE_INTERVAL ;
 
 
+struct Frame 
+{ 
+const static size_t MAX_GRID_SIZE  ; 
+ 
+AVFrame* pFrame ;
+bool mb[MAX_GRID][MAX_GRID] ;
+bool empty[MAX_GRID][MAX_GRID] ;
+signed char mv[2][MAX_GRID][MAX_GRID] ;
+int  pts ;  int index ; 
+char type ;  // AVFrame* avframe ; 
+int width ; int height ; 
+
+void setup(AVFrame*, vector<AVMotionVector>& ) ; 
+void print(FILE*, FILE*) ; 
+public:
+Frame() ; 
+
+} ; 
+
+
 
 class AVL_H264{
+
+AVFormatContext* avcontext ; 
+AVStream* avstream ; int avstream_index ;
+Frame frame ;
+AVFrame* avframe ;
+vector<AVMotionVector> avmv ;
+int pts ; char type ;
+
+FILE* mvout ; FILE* rgbout ;
 public:
-static void initialize_av() ;
-static bool process_frame(AVPacket *pkt) ;
-static bool read_packets(FILE* mout) ;
-static bool read_frame(int64_t& pts, char& pictType, vector<AVMotionVector>& motion_vectors, AVFrame& avframe,  FILE* mout) ;
-// static void output_frame(int , int64_t , char , vector<AVMotionVector>& motionVectors, AVFrame& avframe , FILE* , FILE* ) ;
+AVL_H264() ;
+void initialize() ;
+bool decode_packets() ;
+bool get_motion_vectors()   ;
+// void output_frame(int , int64_t , char , vector<AVMotionVector>& motionVectors, AVFrame& avframe , FILE* , FILE* ) ;
 
 };
 
@@ -87,40 +116,6 @@ static void parse_input(int argc, char *argv[], float *d, float *fixed_thres,
 static void parse_options(int argc, const char* argv[]) ;
 
  } ;
-
-
-struct Frame 
-{ 
-const static size_t MAX_GRID_SIZE  ; 
- 
-size_t GridStep; 
-pair<size_t, size_t> Shape; 
- 
-
-bool mb[MAX_GRID][MAX_GRID] ;
-bool empty[MAX_GRID][MAX_GRID] ;
-signed char mv[MAX_GRID][MAX_GRID][MVCH] ;
-int64_t Pts; 
-int FrameIndex; 
-char PictType; 
-const char* Origin; 
-bool Empty; 
-bool Printed; 
-AVFrame avframe ; Frame() ; 
-
-
-
-void InterpolateFlow(Frame& prev, Frame& next) ; 
-void FillInSomeMissingVectorsInGrid8(); 
-void FillInSomeMissingVectorsInGrid4(); 
-void PrintIfNotPrinted(FILE* fout, FILE* mout); 
-void setup(AVFrame avframe, int index, int64_t pts, char type, vector<AVMotionVector>, size_t w, size_t h) ; 
-void print(AVFrame*, FILE*, FILE*) ; 
-
-public:
-static void output_frame(int frameIndex, int64_t pts, char pictType, vector<AVMotionVector>& motionVectors, AVFrame& avframe , FILE* fout, FILE* mout) ;
-
-} ; 
 
 
 #endif

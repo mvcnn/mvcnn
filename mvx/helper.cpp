@@ -28,10 +28,5 @@ void Helper::parse_options(int argc, const char* argv[])
                 else
                         VIDEO_PATH = argv[i];
         }
-        if(SHOW_HELP || VIDEO_PATH == NULL)
-        {
-                // fprintf(stderr, "Usage: mpegflow [[-8] [-4] [-o outPath]] videoPath\n  -8 or -4 will force fine 8x8 or 4x4 grid.\n  -o specifies output path for binary.\n  --quiet will suppress debug output.\n  --help and -h will output this help message.\n");
-                exit(1);
-        }
 }
 
