@@ -23,8 +23,8 @@ void Frame::setup(AVFrame* avframe, vector<AVMotionVector>& avmv )
 	        size_t pos_y = max(MIN, min(avmv_.dst_y / mbsize , MAX)) ;
 
 		mb[pos_x][pos_y] = 1 ;
-	        mv[0][pos_x][pos_y] = (signed char) (avmv_.dst_x - avmv_.src_x) ;
-	        mv[1][pos_x][pos_y] = (signed char) (avmv_.dst_y - avmv_.src_y) ;
+	        mv[0][pos_y][pos_x] = (signed char) (avmv_.dst_x - avmv_.src_x) ;
+	        mv[1][pos_y][pos_x] = (signed char) (avmv_.dst_y - avmv_.src_y) ;
 	}
 }
 
