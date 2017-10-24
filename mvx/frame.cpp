@@ -55,55 +55,55 @@ void Frame::print(FILE *fout, FILE *mout)
 
         int image_size = height * width ;
 
-//         unsigned char* R = new unsigned char[image_size]() ;
-//         unsigned char* G = new unsigned char[image_size]() ;
-//         unsigned char* B = new unsigned char[image_size]() ;
-// 
-//         bool is_reference = ((index % REF_INTERVAL) == 0 || index == 1) ;
-// 
-//         for(int i = 0 ; i < xdim ; i++){
-//         for(int j = 0; j < (ydim/2) ; j++){
-// 
-//         absx = i * 16 ; absy = j * 16 ;
-// 
-//         if ((mv[0][j][i]*mv[0][j][i] + mv[1][j][i]*mv[1][j][i]) > RGB_THRESH){
-//                 for ( int k = 0 ; k < 16 ; k++ ){
-// 
-//                 frame_data_pos = (pFrame->linesize[0]* (absy + k)) + absx;
-//                 rgb_data_pos = (pFrame->linesize[0]* (absy + k)) + absx ;
-// 
-//                 for (int l = 0 ; l < 16 ; l++) {
-//                 /*
-//                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l*3+0];
-//                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l*3+1];
-//                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l*3+2]; }*/
-// 
-//                 if(is_reference){
-// 
-//                 // Update RGB as Reference
-//                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l];
-//                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l];
-//                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l]; }
-// 
-//                 else{
-//                 if (std::abs(mv[0][j][i]) > RGB_THRESH || std::abs(mv[1][j][i]) > RGB_THRESH){
-// 
-//                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l];
-//                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l];
-//                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l]; }}
-// 
-// 
-//                 // fwrite(&(pFrame->data[0][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
-//                 // fwrite(&(pFrame->data[1][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
-//                 // fwrite(&(pFrame->data[2][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ; }
-// 
-//                 }}} // extra ?
-// 
-//         }}
-//         fprintf(stdout,"Called for RAND  -- %d %d\n", xdim, ydim) ;
-//         if((index % WRITE_INTERVAL) == 0){
-//                 fwrite(R, sizeof(unsigned char), image_size, mout) ;
-//                 fwrite(G, sizeof(unsigned char), image_size, mout) ;
-//                 fwrite(B, sizeof(unsigned char), image_size, mout) ; }
+         unsigned char* R = new unsigned char[image_size]() ;
+         unsigned char* G = new unsigned char[image_size]() ;
+         unsigned char* B = new unsigned char[image_size]() ;
+ 
+         bool is_reference = ((index % REF_INTERVAL) == 0 || index == 1) ;
+ 
+         for(int i = 0 ; i < xdim ; i++){
+         for(int j = 0; j < (ydim/2) ; j++){
+ 
+         absx = i * 16 ; absy = j * 16 ;
+ 
+         if ((mv[0][j][i]*mv[0][j][i] + mv[1][j][i]*mv[1][j][i]) > RGB_THRESH){
+                 for ( int k = 0 ; k < 16 ; k++ ){
+ 
+                 frame_data_pos = (pFrame->linesize[0]* (absy + k)) + absx;
+                 rgb_data_pos = (pFrame->linesize[0]* (absy + k)) + absx ;
+ 
+                 for (int l = 0 ; l < 16 ; l++) {
+                 /*
+                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l*3+0];
+                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l*3+1];
+                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l*3+2]; }*/
+ 
+                 if(is_reference){
+ 
+                 // Update RGB as Reference
+                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l];
+                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l];
+                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l]; }
+ 
+                 else{
+                 if (std::abs(mv[0][j][i]) > RGB_THRESH || std::abs(mv[1][j][i]) > RGB_THRESH){
+ 
+                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l];
+                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l];
+                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l]; }}
+ 
+ 
+                 // fwrite(&(pFrame->data[0][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
+                 // fwrite(&(pFrame->data[1][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
+                 // fwrite(&(pFrame->data[2][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ; }
+ 
+                 }}} // extra ?
+ 
+         }}
+         // fprintf(stdout,"Called for RAND  -- %d %d\n", xdim, ydim) ;
+         if((index % WRITE_INTERVAL) == 0){
+                 fwrite(R, sizeof(unsigned char), image_size, mout) ;
+                 fwrite(G, sizeof(unsigned char), image_size, mout) ;
+                 fwrite(B, sizeof(unsigned char), image_size, mout) ; }
 
         }

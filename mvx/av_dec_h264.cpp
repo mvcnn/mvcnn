@@ -28,7 +28,6 @@ void AVL_H264::initialize()
 
 			avcodec_open2(enc, pCodec, &opts) ;
 			avstream_index = i ; avstream = avcontext->streams[i] ;
-			// frame_width = enc->width ; frame_height = enc->height ;
 			frame.width = enc->width ; frame.height = enc->height ;
 			break ; // Break once stream is set
 		}
@@ -83,7 +82,6 @@ bool AVL_H264::decode_packets()
 
 bool AVL_H264::get_motion_vectors()
 {
-	fprintf(stdout, "here %d %d\n", pts, frame.pts) ;
 	if(!decode_packets()) {fclose(mvout) ; fclose(rgbout) ; return false ;}
 	
 
@@ -93,7 +91,6 @@ bool AVL_H264::get_motion_vectors()
 		pts = avframe->pkt_dts ;
         else 	pts = pts + 1 ;
 
-	fprintf(stdout, "here2 %d %d\n", pts, frame.pts) ;
 	if (pts <= frame.pts && frame.pts != -1) return true ;
 
 	type = av_get_picture_type_char(avframe->pict_type) ;
@@ -116,7 +113,6 @@ bool AVL_H264::get_motion_vectors()
         frame.pts = pts ; frame.index = frame.index + 1 ;
 	frame.type = type ; 
 
-	fprintf(stdout, "Writing to: %s\n", OUT_PATH) ;
 
 	frame.setup(avframe, avmv) ;
         if(!avmv.empty()) { frame.print(mvout, rgbout) ; } ;
