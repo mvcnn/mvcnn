@@ -33,13 +33,22 @@ void Frame::print(FILE *fout, FILE *mout)
         int ydim = (height/16)*2 ; int xdim  = width/16 ;
 
         // Write frame header..
+	
+        fwrite(&index, sizeof(int), 1, fout) ;
         fwrite(&index, sizeof(int), 1, fout) ;
         fwrite(&xdim, sizeof(int), 1, fout) ;
         fwrite(&ydim, sizeof(int), 1, fout) ;
         fwrite(&type, sizeof(char), 1, fout) ;
+	for (int i = 0 ; i < ydim/2 ; i++){
 
-        fwrite(&mv[0], sizeof(signed char), xdim*ydim/2 , fout) ;
-        fwrite(&mv[1], sizeof(signed char), xdim*ydim/2 , fout) ;
+        	fwrite(&mv[0][i], sizeof(signed char), xdim , fout) ;
+	}
+	for (int i = 0 ; i < ydim/2 ; i++){
+
+        	fwrite(&mv[1][i], sizeof(signed char), xdim , fout) ;
+	}
+
+       //  fwrite(&mv[1], sizeof(signed char), xdim*ydim/2 , fout) ;
         
 	int absx ; int absy ;
         int frame_data_pos ; int rgb_data_pos ;
