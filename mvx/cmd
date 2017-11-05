@@ -1,0 +1,1 @@
+ffmpeg -y -i box.mp4 -c:v libx264rgb -b:v 512k -bf 0 -pix_fmt rgb24  -r 25 -strict -2 gbr_box.mp4

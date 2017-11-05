@@ -40,7 +40,7 @@ extern "C"
 #define SELDEC_WRITE        1
 #define MAX_GRID            512
 #define MAX_STRING_SIZE     512
-#define MVCH		    2
+#define MV_CHANNELS	    2
 
 using namespace std;
 using namespace boost::assign ;
@@ -73,7 +73,7 @@ const static size_t MAX_GRID_SIZE  ;
 AVFrame* pFrame ;
 bool mb[MAX_GRID][MAX_GRID] ;
 bool empty[MAX_GRID][MAX_GRID] ;
-signed char mv[2][MAX_GRID][MAX_GRID] ;
+signed char mv[MV_CHANNELS][MAX_GRID][MAX_GRID] ;
 int  pts ;  int index ; 
 char type ;  // AVFrame* avframe ; 
 int width ; int height ; 

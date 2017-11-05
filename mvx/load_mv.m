@@ -19,14 +19,14 @@ k = 1 ;
 while(true)
 
 fprintf('Loading frame %d ..\n', k) ;
-pts = fread(fid,1,'int') ; 
+pts = fread(fid,1,'int') ;
 
 % Load PTS and check for EOF ..
 if isempty(pts)
 	break
 end
 
-framePts(k) = pts ; 
+framePts(k) = pts ;
 frameInd(k) = fread(fid,1,'int') ;
 % Skip X/Y Dims ..
 fread(fid,1,'int') ;fread(fid,1,'int') ;

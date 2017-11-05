@@ -12,7 +12,14 @@ void Frame::setup(AVFrame* avframe, vector<AVMotionVector>& avmv )
 
 	size_t mbsize  = 16 ;
 	pFrame = avframe ;
+	int x_mv_length = MAX_GRID ;
+	int y_mv_length = MAX_GRID ;
 
+
+	signed char *pos ;
+	signed char *x_mv_start_pos = &mv[0][0][0] ;
+	signed char *y_mv_start_pos = x_mv_start_pos + MAX_GRID * MAX_GRID ;
+	
 	for(int i = 0; i < avmv.size(); i++)
 	{
 		size_t MAX  ; size_t MIN  ;
@@ -21,10 +28,16 @@ void Frame::setup(AVFrame* avframe, vector<AVMotionVector>& avmv )
 	        size_t pos_x = max(MIN, min(avmv_.dst_x / mbsize , MAX)) ;
 		MAX = (height/16) - 1 ; MIN = 0 ;
 	        size_t pos_y = max(MIN, min(avmv_.dst_y / mbsize , MAX)) ;
-
+		
 		mb[pos_x][pos_y] = 1 ;
-	        mv[0][pos_y][pos_x] = (signed char) (avmv_.dst_x - avmv_.src_x) ;
-	        mv[1][pos_y][pos_x] = (signed char) (avmv_.dst_y - avmv_.src_y) ;
+		pos = x_mv_start_pos + pos_y * MAX_GRID + pos_x ;
+                *(pos) = (unsigned char) (avmv_.dst_x - avmv_.src_x) ;
+
+		pos = y_mv_start_pos + pos_y * MAX_GRID + pos_x ;
+                *(pos) = (unsigned char) (avmv_.dst_y - avmv_.src_y) ;
+
+	        // mv[0][pos_y][pos_x] = (signed char) (avmv_.dst_x - avmv_.src_x) ;
+	        // mv[1][pos_y][pos_x] = (signed char) (avmv_.dst_y - avmv_.src_y) ;
 	}
 }
 

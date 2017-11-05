@@ -1,0 +1,19 @@
+function [epe] = calculate_epe(avmv, jmmv)
+
+
+[av_mv_data] = load_mv(avmv, 10, false) ;
+[jm_mv_data] = load_mv(jmmv, 10, false) ;
+
+numFrame = min(size(jm_mv_data), size(av_mv_data)) ;
+
+
+
+for i = 1:numFrame
+    
+    
+    
+end
+
+keyboard
+
+end
