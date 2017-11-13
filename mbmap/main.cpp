@@ -59,7 +59,9 @@ int main(int argc, const char* argv[])
 		mbvec.push_back(mb) ;
 		last_frame = mb.frame ; }
 
-		frame.setup(mbvec) ; frame.print(fout)  ;
+		frame.setup(mbvec) ; 
+		frame.smooth() ; 
+		frame.print(fout)  ;
 	}
 
         free (buffer) ; fclose(fout) ;
