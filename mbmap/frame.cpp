@@ -10,10 +10,13 @@ Frame::Frame()
 void Frame::smooth(){
 
 	size_t mbsize  = GRID_8X8 ? 8:16  ;
+	mbsize         = GRID_4X4 ? 4:mbsize  ;
+
+	size_t smooth_it  = GRID_4X4 ? 2:1  ;
 
         int ydim = (height/mbsize)*2 ; int xdim  = width/mbsize ;
 
-for (int l = 1 ; l > 0 ; l--){
+for (int l = smooth_it ; l > 0 ; l--){
   for(int k = 0; k < 2 ; k++)
   {       
         for(int i = 1; i < (ydim/2) - 1; i++)
@@ -48,7 +51,13 @@ void Frame::setup(vector<JMacroBlock>& avmv)
 
 	memset(mv, 0, sizeof(mv)) ; 
 	memset(mb, 0, sizeof(mb)) ; 
+
 	size_t mbsize  = GRID_8X8 ? 8:16  ;
+	mbsize         = GRID_4X4 ? 4:mbsize  ;
+
+
+
+
 	int x_mv_length = MAX_GRID ;
 	int y_mv_length = MAX_GRID ;
 
@@ -81,6 +90,7 @@ void Frame::print(FILE *fout)
         {
 
 	size_t mbsize  = GRID_8X8 ? 8:16  ;
+	mbsize         = GRID_4X4 ? 4:mbsize  ;
 
         int ydim = (height/mbsize)*2 ; int xdim  = width/mbsize ;
 

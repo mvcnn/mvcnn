@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // Input parameters
-bool GRID_8X8, SHOW_HELP ; 
+bool GRID_8X8, GRID_4X4, SHOW_HELP ; 
 int FRAME_WIDTH ; int FRAME_HEIGHT ;
 const char *INPUT_PATH, *OUTPUT_PATH ;
 
