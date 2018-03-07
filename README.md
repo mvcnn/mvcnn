@@ -22,28 +22,35 @@ If you use the tools provided in this repository, please cite our work:
 ## Prerequisites
 
 In order to run thie code you will need:
-
-1. Python 2.7 
-1. TensorFlow (tested with TensorFlow 1.1.0)
+1. AVLib
+2. Python 2.7 
+3. TensorFlow (tested with TensorFlow 1.1.0)
 
 ## Generating Approximated Flow Inputs
 
-Compile the tool MVX using:
+Install AVLib dependency, if you are using a linux machine run:
 
 ```
-g++ *.cpp
+apt-get update
+apt-get install libav-tools libavutil-dev ffmpeg
 ```
 
-Make sure you transcode your input to be encoded using the GBR color format, e.g:
+Compile MVX:
 
 ```
-ffmpeg -i video.avi
+make
 ```
 
-To extract the approximated flow along with RGB texture at active regions within frames, use:
+Transcode your input video to be encoded using the GBR colorspace:
 
 ```
-./mvx -i video.mp4 -w 1 -r 10 -t 0 --rgb out.rgb --mv out.mv
+ffmpeg -y -i sample.mp4 -c:v libx264rgb -b:v 512k -bf 0 -pix_fmt rgb24  -r 25 -strict -2 gbr_sample.mp4
+```
+
+To extract the approximated flow along with GBR texture at active regions within frames, use:
+
+```
+./mvx -i sample.mp4 -w 1 -r 10 -t 0 --rgb out.rgb --mv out.mv
 ```
 
 This will output the flow and texture to out.mv and out.rgb respectively.
