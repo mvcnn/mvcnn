@@ -22,20 +22,21 @@ If you use the tools provided in this repository, please cite our work:
 ## Prerequisites
 
 In order to run thie code you will need:
-1. AVLib
+1. AVLib (https://github.com/libav/libav)
 2. Python 2.7 
 3. TensorFlow (tested with TensorFlow 1.1.0)
 
-## Generating Approximated Flow Inputs
+## Compiling MVX And Preparing Video Inputs
 
-Install AVLib dependency, if you are using a linux machine run:
+The MVX tool takes an x264 bitstream as input and outputs the approximated flow 
+and selectively decoded frames.
+
+Install dependencies, if you are using a linux machine run:
 
 ```
 apt-get update
 apt-get install libav-tools libavutil-dev ffmpeg
 ```
-
-Compile MVX:
 
 ```
 make
