@@ -38,6 +38,8 @@ apt-get update
 apt-get install libav-tools libavutil-dev ffmpeg
 ```
 
+Compile MVX using the provided Makefile:
+
 ```
 make
 ```
