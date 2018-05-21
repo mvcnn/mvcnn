@@ -101,10 +101,10 @@ void Frame::print(FILE *fout, FILE *mout)
  
  
  
-                 }}} // extra ?
+                 }}} 
  
          }}
-         // fprintf(stdout,"Called for RAND  -- %d %d\n", xdim, ydim) ;
+        
          if((index % WRITE_INTERVAL) == 0){
                  fwrite(R, sizeof(unsigned char), image_size, mout) ;
                  fwrite(G, sizeof(unsigned char), image_size, mout) ;
