@@ -56,8 +56,18 @@ To extract the approximated flow along with GBR texture at active regions within
 ./mvx -w 1 -r 10 -t 0 --rgb out.rgb --mv out.mv gbr_sample.mp4
 ```
 
-This outputs the motion vector frames to "out.mv" and selected RGB texture to "out.rgb". The script "load_mv.m" is included to read the extracted motion vector frames (requires Matlab). -w specifies that RGB texture should be written every 1 frame (i.e. every frame) -r specifies that all texture should retrieved every 10 frames, and t is the motion vector activity threshold at which RGB texture is written for frames in between reference frames (write if dx^2 + dy^2 > threshold, where dx and dy are the estimated displacements along the x and y axis respectively). Please have a look at our paper to have a better idea of how these parameters affect the classifier performance.
+The table below details what each parameter specifies:
 
+Option | Description
+--- | ---
+-w | RGB texture writing interval
+-r | reference frame caching interval
+-t | threshold for writing RGB texture for frames in between
+-8 | set motion vector map resolution to 8 pixels (default is 16)
+--rgb  | frame texture output path
+--mv | motion vector output path
+
+Please have a look at our paper to have a better idea of how these parameters affect the classifier performance.
 
 ## Training
 In order to train our model on UCF-101 (split 1) on a single GPU:
