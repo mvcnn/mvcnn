@@ -35,7 +35,7 @@ Install dependencies, if you are using a linux machine run:
 
 ```
 apt-get update
-apt-get install libav-tools libavutil-dev ffmpeg
+apt-get install libav-tools libavutil-dev ffmpeg libboost-all-dev
 ```
 
 Compile MVX using the provided Makefile:
@@ -53,10 +53,11 @@ ffmpeg -y -i sample.mp4 -c:v libx264rgb -b:v 512k -bf 0 -pix_fmt rgb24  -r 25 -s
 To extract the approximated flow along with GBR texture at active regions within frames, use:
 
 ```
-./mvx -i sample.mp4 -w 1 -r 10 -t 0 --rgb out.rgb --mv out.mv
+./mvx -w 1 -r 10 -t 0 --rgb out.rgb --mv out.mv gbr_sample.mp4
 ```
 
-This will output the flow and texture to out.mv and out.rgb respectively.
+This outputs the motion vector frames to "out.mv" and selected RGB texture to "out.rgb". The script "load_mv.m" is included to read the extracted motion vector frames (requires Matlab). -w specifies that RGB texture should be written every 1 frame (i.e. every frame) -r specifies that all texture should retrieved every 10 frames, and t is the motion vector activity threshold at which RGB texture is written for frames in between reference frames (write if dx^2 + dy^2 > threshold, where dx and dy are the estimated displacements along the x and y axis respectively). Please have a look at our paper to have a better idea of how these parameters affect the classifier performance.
+
 
 ## Training
 In order to train our model on UCF-101 (split 1) on a single GPU:
@@ -80,7 +81,7 @@ In order to test our model on UCF-101 (split 1) on a single GPU:
 
 1. Convert the test motion vector bins by running:
 ```
-python convert_UCF_bin.py --data_dir=<path to motion vector data dir (ucf_8x8_w10_r1_bin)> --out_dir=<path to output dir> --path_to_file_list=<path to test split 1 file list (ucfTrainTestlist/testlist01.txt)>
+python convert_UCF_bin.py --data_dir=<path to motion vector data dir --out_dir=<path to output dir> --path_to_file_list=<path to test split 1 file list (ucfTrainTestlist/testlist01.txt)>
 ```
 2. Test on the converted bins:
 ```

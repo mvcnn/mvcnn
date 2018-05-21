@@ -4,7 +4,7 @@
 int av_stream_index ; size_t frame_width, frame_height ;
 
 // Extraction settings
-bool GRID_8X8, SHOW_HELP ; 
+bool MAP_TO_8X8, SHOW_HELP ; 
 int RGB_THRESH, REF_INTERVAL, WRITE_INTERVAL ;
 const char *VIDEO_PATH, *OUT_PATH, *RGB_PATH ;
 

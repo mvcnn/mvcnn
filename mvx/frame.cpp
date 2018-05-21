@@ -10,43 +10,42 @@ Frame::Frame()
 void Frame::setup(AVFrame* avframe, vector<AVMotionVector>& avmv )
 {
 
-	size_t mbsize  = 16 ;
+	size_t mbsize  = 16 ; if (MAP_TO_8X8){ mbsize = 8 ; } ;
 	pFrame = avframe ;
-	int x_mv_length = MAX_GRID ;
-	int y_mv_length = MAX_GRID ;
+	int x_mv_length = MAX_MAP ;
+	int y_mv_length = MAX_MAP ;
 
 
 	signed char *pos ;
 	signed char *x_mv_start_pos = &mv[0][0][0] ;
-	signed char *y_mv_start_pos = x_mv_start_pos + MAX_GRID * MAX_GRID ;
+	signed char *y_mv_start_pos = x_mv_start_pos + MAX_MAP * MAX_MAP ;
 	
 	for(int i = 0; i < avmv.size(); i++)
 	{
 		size_t MAX  ; size_t MIN  ;
 	        AVMotionVector& avmv_ = avmv[i];
-		MAX = (width/16) - 1 ; MIN = 0 ;
+		MAX = (width/mbsize) - 1 ; MIN = 0 ;
 	        size_t pos_x = max(MIN, min(avmv_.dst_x / mbsize , MAX)) ;
-		MAX = (height/16) - 1 ; MIN = 0 ;
+		MAX = (height/mbsize) - 1 ; MIN = 0 ;
 	        size_t pos_y = max(MIN, min(avmv_.dst_y / mbsize , MAX)) ;
 		
 		mb[pos_x][pos_y] = 1 ;
-		pos = x_mv_start_pos + pos_y * MAX_GRID + pos_x ;
+		pos = x_mv_start_pos + pos_y * MAX_MAP + pos_x ;
                 *(pos) = (unsigned char) (avmv_.dst_x - avmv_.src_x) ;
 
-		pos = y_mv_start_pos + pos_y * MAX_GRID + pos_x ;
+		pos = y_mv_start_pos + pos_y * MAX_MAP + pos_x ;
                 *(pos) = (unsigned char) (avmv_.dst_y - avmv_.src_y) ;
 
-	        // mv[0][pos_y][pos_x] = (signed char) (avmv_.dst_x - avmv_.src_x) ;
-	        // mv[1][pos_y][pos_x] = (signed char) (avmv_.dst_y - avmv_.src_y) ;
 	}
 }
 
 void Frame::print(FILE *fout, FILE *mout)
         {
-        int ydim = (height/16)*2 ; int xdim  = width/16 ;
+	size_t mbsize  = 16 ; if (MAP_TO_8X8){ mbsize = 8 ; } ;
+        int ydim = (height/mbsize)*2 ; int xdim  = width/mbsize ;
 
         // Write frame header..
-	
+        // Write index twice legacy (first index is a legacy placeholder)
         fwrite(&index, sizeof(int), 1, fout) ;
         fwrite(&index, sizeof(int), 1, fout) ;
         fwrite(&xdim, sizeof(int), 1, fout) ;
@@ -61,7 +60,6 @@ void Frame::print(FILE *fout, FILE *mout)
         	fwrite(&mv[1][i], sizeof(signed char), xdim , fout) ;
 	}
 
-       //  fwrite(&mv[1], sizeof(signed char), xdim*ydim/2 , fout) ;
         
 	int absx ; int absy ;
         int frame_data_pos ; int rgb_data_pos ;
@@ -77,19 +75,15 @@ void Frame::print(FILE *fout, FILE *mout)
          for(int i = 0 ; i < xdim ; i++){
          for(int j = 0; j < (ydim/2) ; j++){
  
-         absx = i * 16 ; absy = j * 16 ;
+         absx = i * mbsize ; absy = j * mbsize ;
  
          if ((mv[0][j][i]*mv[0][j][i] + mv[1][j][i]*mv[1][j][i]) > RGB_THRESH){
-                 for ( int k = 0 ; k < 16 ; k++ ){
+                 for ( int k = 0 ; k < mbsize ; k++ ){
  
                  frame_data_pos = (pFrame->linesize[0]* (absy + k)) + absx;
                  rgb_data_pos = (pFrame->linesize[0]* (absy + k)) + absx ;
  
-                 for (int l = 0 ; l < 16 ; l++) {
-                 /*
-                 *(R + rgb_data_pos + l) = (unsigned char) pFrame->data[0][frame_data_pos+l*3+0];
-                 *(G + rgb_data_pos + l) = (unsigned char) pFrame->data[1][frame_data_pos+l*3+1];
-                 *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l*3+2]; }*/
+                 for (int l = 0 ; l < mbsize ; l++) {
  
                  if(is_reference){
  
@@ -106,9 +100,6 @@ void Frame::print(FILE *fout, FILE *mout)
                  *(B + rgb_data_pos + l) = (unsigned char) pFrame->data[2][frame_data_pos+l]; }}
  
  
-                 // fwrite(&(pFrame->data[0][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
-                 // fwrite(&(pFrame->data[1][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ;
-                 // fwrite(&(pFrame->data[2][frame_data_pos+l]), sizeof(unsigned char), 1, mout) ; }
  
                  }}} // extra ?
  

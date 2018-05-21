@@ -38,7 +38,7 @@ extern "C"
 #define SELDEC_THRESHOLD    0
 #define SLEDEC_REF          5
 #define SELDEC_WRITE        1
-#define MAX_GRID            512
+#define MAX_MAP            512
 #define MAX_STRING_SIZE     512
 #define MV_CHANNELS	    2
 
@@ -61,19 +61,19 @@ using namespace boost::assign ;
 extern AVFrame *av_frame ;
 extern AVFormatContext *av_context ; extern AVStream *av_stream ;
 extern int av_stream_index ; extern size_t frame_width, frame_height ;
-extern bool GRID_8X8, SHOW_HELP ;
+extern bool MAP_TO_8X8, SHOW_HELP ;
 extern const char* VIDEO_PATH, *OUT_PATH, *RGB_PATH ;
 extern int RGB_THRESH, REF_INTERVAL, WRITE_INTERVAL ;
 
 
 struct Frame 
 { 
-const static size_t MAX_GRID_SIZE  ; 
+const static size_t MAX_MAP_SIZE  ; 
  
 AVFrame* pFrame ;
-bool mb[MAX_GRID][MAX_GRID] ;
-bool empty[MAX_GRID][MAX_GRID] ;
-signed char mv[MV_CHANNELS][MAX_GRID][MAX_GRID] ;
+bool mb[MAX_MAP][MAX_MAP] ;
+bool empty[MAX_MAP][MAX_MAP] ;
+signed char mv[MV_CHANNELS][MAX_MAP][MAX_MAP] ;
 int  pts ;  int index ; 
 char type ;  // AVFrame* avframe ; 
 int width ; int height ; 

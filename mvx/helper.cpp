@@ -14,8 +14,8 @@ void Helper::parse_options(int argc, const char* argv[])
                 if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
                         SHOW_HELP = true;
                 else if(strcmp(argv[i], "-8") == 0)
-                        GRID_8X8 = true;
-                else if (strcmp(argv[i], "-o") == 0)
+                        MAP_TO_8X8 = true;
+                else if (strcmp(argv[i], "--mv") == 0)
                         OUT_PATH = argv[++i];
                 else if (strcmp(argv[i], "-t") == 0)
                         RGB_THRESH = atoi(argv[++i]);
