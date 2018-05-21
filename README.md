@@ -62,7 +62,7 @@ Option | Description
 --- | ---
 -w | RGB texture writing interval
 -r | reference frame caching interval
--t | threshold for writing RGB texture for frames in between
+-t | threshold for writing RGB texture for frames in between reference frames
 -8 | set motion vector map resolution to 8 pixels (default is 16)
 --rgb  | frame texture output path
 --mv | motion vector output path
